@@ -4,18 +4,16 @@ const productRouter = express.Router();
 const createError = require("http-errors");
 const Product = require("../models/productsModel");
 
-const mongoose = require ('mongoose');
-
 
 //POST 
 productRouter.post('/searchPage', (req, res, next) => {
-  const {productName, category, priceRange} = req.body;
+  const {productName, category} = req.body;
 
-  Product.create( { productName, category, priceRange } )
-    .then( (createdProduct) => {
+  Product.find( { productName, category } )
+    .then( (foundProduct) => {
 			res
-				.status(201) // Created
-				.json(createdProduct);			
+				.status(200) // Created
+				.json(foundProduct);			
 		})
 		.catch( (err) => {
 			res
@@ -26,16 +24,18 @@ productRouter.post('/searchPage', (req, res, next) => {
 
 
 //GET
-productRouter.get('/searchPage/:category', (req, res, next) = {
+productRouter.get('/searchPage/:category', (req, res, next) => {
 	
-	Product.find({category: req.params})
+	Product.find({category: req.params.category})
 	  .then( (projectsByCategory) => {
 			res
 				.status(200)
 				.json(projectsByCategory)
 		})
 		.catch( (err) => {
-			res.status(500).json(err);
+			res
+			.status(500)
+			.json(err);
 		});
 })
 

@@ -11,7 +11,7 @@ require('dotenv').config();
 
 const order = require ("./routes/orderRoute");
 const auth = require('./routes/auth');
-
+const product = require('./routes/productRoute');
 
 // MONGOOSE CONNECTION
 mongoose
@@ -70,7 +70,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ROUTER MIDDLEWARE
 app.use('/auth', auth);
 app.use("/order",order);
-
+app.use("/product", product);
 
 
 // 404 
