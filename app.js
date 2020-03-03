@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 require('dotenv').config();
 
+const order = require ("./routes/orderRoute");
 const auth = require('./routes/auth');
 
 
@@ -68,6 +69,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ROUTER MIDDLEWARE
 app.use('/auth', auth);
+app.use("/order",order);
+
 
 
 // 404 
