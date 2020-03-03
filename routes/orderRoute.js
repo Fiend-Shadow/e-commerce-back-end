@@ -7,16 +7,16 @@ const User = require("./../models/userModel");
 orderRouter.post("/create" , (req,res,next) => {
     const userId = req.session.currentUser._id;
     const productId = req.body._id;
-    const newProductsList =[];
-    const orderid=0;
+    const updatedOrderProducts =[];
+    const orderid="";
 
     User.findById({userId}).populate("orders")
     .then((oneUser) => {
         oneUser.orders.map(oneOrder =>{
             if (oneOrder.isDone === false){
-                newProductsList = [productId,...oneOrder.orderProducts.id];
+                updatedOrderProducts = [{id:productId , quantity:1},...oneOrder.orderProducts.id];
                 orderid = oneOrder._id;
-                return Order.findByIdAndUpdate({orderid},{$set: {orderProducts: newProductsList}})
+                return Order.findByIdAndUpdate({orderid},{$set: {orderProducts: updatedOrderProducts}},{new:true})
             }
             else {
                 return Order.create({
@@ -39,6 +39,7 @@ orderRouter.post("/create" , (req,res,next) => {
     });
     
 });
+
 
 
 
