@@ -47,7 +47,7 @@ app.use(
   session({
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
-      ttl: 24 * 60 * 60, // 1 day
+      ttl: 24 * 60 * 60 * 5, // 5 day
     }),
     secret: process.env.SECRET_SESSION,
     resave: true,
