@@ -42,7 +42,7 @@ router.post('/signup', isNotLoggedIn, validationLogin, async (req, res, next) =>
 router.post('/login', isNotLoggedIn, validationLogin, async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email }) ;
+    const user = await User.findOne({ email: email }) ;
     if (!user) {
       next(createError(404));
     } 
