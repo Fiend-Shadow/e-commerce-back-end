@@ -14,13 +14,13 @@ orderRouter.post("/create" , (req,res,next) => {
     .then((oneUser) => {
         oneUser.orders.map(oneOrder =>{
             if (oneOrder.isDone === false){
-                newProductsList = [productId,...oneOrder.orderProducts];
+                newProductsList = [productId,...oneOrder.orderProducts.id];
                 orderid = oneOrder._id;
                 return Order.findByIdAndUpdate({orderid},{$set: {orderProducts: newProductsList}})
             }
             else {
                 return Order.create({
-                    orderProducts :[productId],
+                    orderProducts :[{id:productId , quantity: 1}],
                     orderUser : userId,
                     isDone : false,
                     isDelevired : false
@@ -31,17 +31,16 @@ orderRouter.post("/create" , (req,res,next) => {
             res
             .status(200)
             .json(oneProductOrder);
-        }).catch((err) => {
-            res
-            .status(400)
-            .json(err);
-
-        });
+        })
     }).catch((err) => {
-        
+        res
+        .status(400)
+        .json(err);
     });
     
-})
+});
+
+
 
 
 
@@ -50,3 +49,7 @@ orderRouter.post("/create" , (req,res,next) => {
 
 
 module.exports = orderRouter;
+
+
+
+
