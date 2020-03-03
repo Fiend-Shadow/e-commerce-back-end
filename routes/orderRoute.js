@@ -23,7 +23,7 @@ orderRouter.post("/create" , (req,res,next) => {
                     orderProducts :[{id:productId , quantity: 1}],
                     orderUser : userId,
                     isDone : false,
-                    isDelevired : false
+                    isDelivered : false
                 })
             }
         })
@@ -42,15 +42,4 @@ orderRouter.post("/create" , (req,res,next) => {
 
 
 
-
-
-
-
-
-
-
 module.exports = orderRouter;
-
-
-
-
