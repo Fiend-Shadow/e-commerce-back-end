@@ -5,17 +5,39 @@ const createError = require("http-errors");
 const Order = require("../models/ordersModel");
 const User = require("./../models/userModel");
 
-orderRouter.post("/create" , (req,res,next) => {
+// function orderIsDone (userId, productId) {
+//     User.findById(userId).populate("orders")
+//     .then((oneUser) => {
+//         oneUser.orders.map(oneOrder =>{
+//             if (oneOrder.isDone == false){
+                
+//                 return next();
+//             }
+//             // else{
+//             //     return true;
+//             // }
+           
+//         }).then((result)=>{
+//             clgresult;
+//         })
+//     }).catch((err) => {
+//         res.status(500).json(createError(err));
+//     });
+// }
+
+
+orderRouter.post("/create",  (req,res,next) => {
     const userId = req.session.currentUser._id;
     const productId = req.body._id;
     const updatedOrderProducts =[];
     const orderid="";
 
+
     User.findById({userId}).populate("orders")
     .then((oneUser) => {
         oneUser.orders.map(oneOrder =>{
             if (oneOrder.isDone === false){
-                updatedOrderProducts = [{id:productId , quantity:1},...oneOrder.orderProducts.id];
+                updatedOrderProducts = [{id:productId , quantity:1},...oneOrder.orderProducts];
                 orderid = oneOrder._id;
                 return Order.findByIdAndUpdate({orderid},{$set: {orderProducts: updatedOrderProducts}},{new:true})
             }
@@ -40,6 +62,8 @@ orderRouter.post("/create" , (req,res,next) => {
     });
     
 });
+
+
 
 orderRouter.get("/allOrders" , (req,res,next) => {
     const {_id} = req.session.currentUser ;
