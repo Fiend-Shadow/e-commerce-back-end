@@ -23,7 +23,7 @@ productRouter.post('/searchPage', (req, res, next) => {
 });
 
 
-//GET
+//GET products based on category
 productRouter.get('/searchPage/:category', (req, res, next) => {
 	
 	Product.find({category: req.params.category})
@@ -38,6 +38,24 @@ productRouter.get('/searchPage/:category', (req, res, next) => {
 			.json(err);
 		});
 })
+
+
+// GET specific product and show in productDetails page
+productRouter.get('/productDetails/:productId', (req, res) => {
+
+	Product.findById(req.params.productId)
+		.then( (foundProduct) => {
+			res.json(foundProduct);
+		})
+		.catch( err => {
+			res.status(500).json(err);
+		})
+});
+
+
+// PUT update a product (check how to do this only beeing admin)
+
+
 
 
 
