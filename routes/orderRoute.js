@@ -34,7 +34,7 @@ orderRouter.post("/create" , (req,res,next) => {
         })
     }).catch((err) => {
         res
-        .status(400)
+        .status(createError(400))
         .json(err);
     });
     
