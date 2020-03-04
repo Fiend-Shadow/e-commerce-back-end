@@ -1,5 +1,5 @@
 const express = require('express');
-cosnt paymentRouter = express.Router();
+const paymentRouter = express.Router();
 
 const createError = require("http-errors");
 const Order = require ('../models/ordersModel');
@@ -19,9 +19,9 @@ paymentRouter.put('/cartPage/payment', (req, res, next) => {
               .status(200)
               .json(updatedOrder)
           })
-    .catch(err) => {
+    .catch((err) => {
       res
       .status((500))
       .json(err);
-    }
-};
+    });
+});
