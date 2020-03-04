@@ -100,8 +100,11 @@ orderRouter.delete("/cancelOrder" , (req,res,next) => {
 });
 
 orderRouter.put("/updateQuantity" , (req,res,next) => {
+    
     const {_id , productId , plus , minus} = req.body;
+    
     Order.findById({_id})
+    
     .then((oneOrder) => {
         let updatedArray = oneOrder.orderProducts;
         updatedArray.map((oneProduct, index)=>{
