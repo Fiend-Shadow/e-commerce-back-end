@@ -1,8 +1,7 @@
 const express = require("express");
 const orderRouter = express.Router();
 const createError = require("http-errors");
-
-const Order = require("../models/ordersModel");
+const Order = require("./../models/ordersModel");
 const User = require("./../models/userModel");
 
 // function orderIsDone (userId, productId) {
