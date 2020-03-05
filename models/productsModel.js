@@ -6,7 +6,7 @@ const productSchema = new Schema({
     productPrice : {type: Number , required: true},
     description : {type: String , required: true},
     img_url : {type: String , required: true },
-    category :{type:String , required: true , enum:["","","",""]},
+    category :{type:String , required: true , enum:["electronics","beauty","sports","house"]},
     quantity: {type: Number ,required: true}
 }
     );
