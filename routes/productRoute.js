@@ -9,10 +9,10 @@ const Product = require("../models/productsModel");
 productRouter.post('/searchPage', (req, res, next) => {
   const {productName} = req.body;
 	console.log('req.body', req.body);
+
   Product.find( { productName } )
     .then( (foundProduct) => {
 			console.log(foundProduct);
-			
 
 			res
 				.status(200) // Created
