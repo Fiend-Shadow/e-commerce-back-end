@@ -13,7 +13,7 @@ const order = require ("./routes/orderRoute");
 const auth = require('./routes/auth');
 const product = require('./routes/productRoute');
 
-// MONGOOSE CONNECTION
+// MONGOOSE CONNECTION //
 mongoose
   .connect(process.env.MONGODB_URI, {
     keepAlive: true,
