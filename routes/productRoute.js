@@ -7,10 +7,13 @@ const Product = require("../models/productsModel");
 
 //POST 
 productRouter.post('/searchPage', (req, res, next) => {
-  const {productName, category} = req.body;
-
-  Product.find( { productName, category } )
+  const {productName} = req.body;
+	console.log('req.body', req.body);
+  Product.find( { productName } )
     .then( (foundProduct) => {
+			console.log(foundProduct);
+			
+
 			res
 				.status(200) // Created
 				.json(foundProduct);			
