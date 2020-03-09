@@ -70,6 +70,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', auth);
 
 
+// ROUTE FOR SERVING REACT APP (index.html)
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+
+
 // 404 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
