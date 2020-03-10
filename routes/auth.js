@@ -10,7 +10,7 @@ const {
   isLoggedIn,
   isNotLoggedIn,
   validationLogin,
-  isAdmin
+  // isAdmin
 } = require("../helpers/middlewares");
 
 
