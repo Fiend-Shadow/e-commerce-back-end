@@ -57,6 +57,11 @@ productRouter.get("/allProducts", (req, res) => {
 });
 
 
+
+// -------------ADMIN CREATE, ADD, DELETE PRODUCTS FROM HERE ON -----------------
+// ------------------------------------------------------------------------------
+
+
 // PUT update a product (check how to do this only beeing admin)
 
 
