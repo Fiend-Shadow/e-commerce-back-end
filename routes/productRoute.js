@@ -46,9 +46,10 @@ productRouter.get('/searchPage/:category', (req, res, next) => {
 // GET specific product and show in productDetails page
 productRouter.get("/allProducts", (req, res) => {
 
-	Product.find()
+	Product.find({})
 		.then( (dataProducts) => {
-			res.json(dataProducts);
+			
+			res.status(200).json(dataProducts);
 		})
 		.catch( err => {
 			res.status(500).json(err);
