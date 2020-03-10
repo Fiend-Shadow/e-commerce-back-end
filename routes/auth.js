@@ -56,9 +56,6 @@ router.post('/login', isNotLoggedIn, validationLogin, async (req, res, next) => 
       res
         .status(200)
         .json(user);
-        // ????????????????
-    //  SHOULD I CHECK IF USER IS ADMIN HERE IN THIS POST?????
-
 
     //return;	 			TODO - remove from the notes
     } 
@@ -89,8 +86,7 @@ router.get('/me', isLoggedIn, (req, res, next) => {
 });
 
 
-// IS THIS OK????
-//GET '/auth/admin'
+// GET '/auth/admin'
 // router.get('/admin', isLoggedIn, isAdmin, (req, res, next) => {
 //   const currentUserSessionData = req.session.currentUser;
 //   currentUserSessionData.password = '****';
