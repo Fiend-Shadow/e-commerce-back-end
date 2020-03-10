@@ -9,10 +9,11 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 require('dotenv').config();
 
+const order = require ("./routes/orderRoute");
 const auth = require('./routes/auth');
+const product = require('./routes/productRoute');
 
-
-// MONGOOSE CONNECTION
+// MONGOOSE CONNECTION //
 mongoose
   .connect(process.env.MONGODB_URI, {
     keepAlive: true,
@@ -47,7 +48,7 @@ app.use(
   session({
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
-      ttl: 24 * 60 * 60, // 1 day
+      ttl: 24 * 60 * 60 * 5, // 5 day
     }),
     secret: process.env.SECRET_SESSION,
     resave: true,
@@ -68,6 +69,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ROUTER MIDDLEWARE
 app.use('/auth', auth);
+app.use("/order",order);
+app.use("/product", product);
 
 
 // ROUTE FOR SERVING REACT APP (index.html)

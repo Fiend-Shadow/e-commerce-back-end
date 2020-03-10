@@ -3,7 +3,7 @@ const router = express.Router();
 const createError = require("http-errors");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const User = require("../models/user");
+const User = require("../models/userModel");
 
 // HELPER FUNCTIONS
 const {
@@ -14,7 +14,7 @@ const {
 
 // POST '/auth/signup'
 router.post('/signup', isNotLoggedIn, validationLogin, async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password , email} = req.body;
 
   try {																									 // projection
     const usernameExists = await User.findOne({ username }, 'username');
@@ -23,9 +23,9 @@ router.post('/signup', isNotLoggedIn, validationLogin, async (req, res, next) =>
     else {
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashPass = bcrypt.hashSync(password, salt);
-      const newUser = await User.create({ username, password: hashPass });
+      const newUser = await User.create({ username, password: hashPass , email });
 
-      newUser.password = "*";
+      newUser.password = "***";
       req.session.currentUser = newUser;
       res
         .status(201)  //  Created
@@ -40,15 +40,15 @@ router.post('/signup', isNotLoggedIn, validationLogin, async (req, res, next) =>
 
 // POST '/auth/login'
 router.post('/login', isNotLoggedIn, validationLogin, async (req, res, next) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const user = await User.findOne({ username }) ;
+    const user = await User.findOne({ email: email }) ;
     if (!user) {
       next(createError(404));
     } 
     else if (bcrypt.compareSync(password, user.password)) {
       
-      user.password = '*';
+      user.password = '******';
       req.session.currentUser = user;
       res
         .status(200)
@@ -76,7 +76,7 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
 // GET '/auth/me'
 router.get('/me', isLoggedIn, (req, res, next) => {
   const currentUserSessionData = req.session.currentUser;
-  currentUserSessionData.password = '*';
+  currentUserSessionData.password = '****';
   
   res.status(200).json(currentUserSessionData);
 });
