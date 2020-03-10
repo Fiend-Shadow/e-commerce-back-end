@@ -44,11 +44,11 @@ productRouter.get('/searchPage/:category', (req, res, next) => {
 
 
 // GET specific product and show in productDetails page
-productRouter.get('/productDetails/:productId', (req, res) => {
+productRouter.get("/allProducts", (req, res) => {
 
-	Product.findById(req.params.productId)
-		.then( (foundProduct) => {
-			res.json(foundProduct);
+	Product.find()
+		.then( (dataProducts) => {
+			res.json(dataProducts);
 		})
 		.catch( err => {
 			res.status(500).json(err);
