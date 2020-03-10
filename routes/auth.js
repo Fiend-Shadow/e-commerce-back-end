@@ -9,8 +9,11 @@ const User = require("../models/userModel");
 const {
   isLoggedIn,
   isNotLoggedIn,
-  validationLogin
+  validationLogin,
+  isAdmin
 } = require("../helpers/middlewares");
+
+
 
 // POST '/auth/signup'
 router.post('/signup', isNotLoggedIn, validationLogin, async (req, res, next) => {
@@ -53,6 +56,10 @@ router.post('/login', isNotLoggedIn, validationLogin, async (req, res, next) => 
       res
         .status(200)
         .json(user);
+        // ????????????????
+    //  SHOULD I CHECK IF USER IS ADMIN HERE IN THIS POST?????
+
+
     //return;	 			TODO - remove from the notes
     } 
     else {
@@ -80,5 +87,15 @@ router.get('/me', isLoggedIn, (req, res, next) => {
   
   res.status(200).json(currentUserSessionData);
 });
+
+
+// IS THIS OK????
+//GET '/auth/admin'
+// router.get('/admin', isLoggedIn, isAdmin, (req, res, next) => {
+//   const currentUserSessionData = req.session.currentUser;
+//   currentUserSessionData.password = '****';
+  
+//   res.status(200).json(currentUserSessionData);
+// });
 
 module.exports = router;
