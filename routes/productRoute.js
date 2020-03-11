@@ -3,7 +3,7 @@ const productRouter = express.Router();
 
 const createError = require("http-errors");
 const Product = require("../models/productsModel");
-
+const parser = require("../config/cloudinary");
 
 //POST 
 productRouter.post('/searchPage', (req, res, next) => {
@@ -66,45 +66,44 @@ productRouter.get("/allProducts", (req, res) => {
 // //ROUTE NOT WORKING
 // // POST from new Product Form //=>adds Product
 
-// productRouter.post("/adminAddProduct", parser.single('photo'), (req, res) => {
-//   let imageURL;
-//   if (req.file) {
-//     imageURL = req.file.secure_url // For Claudinary
-//   }
+productRouter.post("/adminAddProduct", parser.single('photo'), (req, res) => {
 
-//   let {
-//     productName,
-//     productPrice,
-// 		description,
-// 		category,
-// 		quantity,
-// 		img_url//things from the form
-// 	} = req.body; //deconstructing the object right away
+  img_url = req.file.secure_url // For Claudinary
+
+  let {
+    productName,
+    productPrice,
+		description,
+		category,
+		quantity,//things from the form
+	} = req.body; //deconstructing the object right away
 	
-// 	Product.create({
-// 		productName,
-//     productPrice,
-// 		description,
-// 		category,
-// 		quantity,
-// 		img_url
-// 		}) //passing it over the model --> returns a promise
+	Product.create({
+		productName,
+    productPrice,
+		description,
+		category,
+		quantity,
+		img_url
+		}) //passing it over the model --> returns a promise
 		
-//     .then((product) => {
-//       return User.updateOne({
-//           _id: req.session.currentUser._id
-//         }, {
-//           $addToSet: {
-//             products: product._id
-//           }
-//         })
-// 		})
-// 		.catch( (err) => {
-// 			res
-// 			.status(500)
-// 			.json(err);    
-//     })
-// })
+    .then((product) => {
+      User.updateOne({
+          _id: req.session.currentUser._id
+        }, {
+				$push: {
+					products: product._id
+				}
+			})
+			res.json(product)
+			console.log('product', product)
+		})
+		.catch( (err) => {
+			res
+			.status(500)
+			.json(err);    
+    })
+})
 
 
 
