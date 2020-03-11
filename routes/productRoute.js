@@ -5,63 +5,45 @@ const createError = require("http-errors");
 const Product = require("../models/productsModel");
 
 
-//POST 
-productRouter.post('/searchPage', (req, res, next) => {
-  const {productName} = req.body;
-	console.log('req.body', req.body);
-
-  Product.find( { productName } )
-    .then( (foundProduct) => {
-			console.log(foundProduct);
-
-			res
-				.status(200) // Created
-				.json(foundProduct);			
-		})
-		.catch( (err) => {
-			res
-				.status(500)
-				.json(err);
-		});
-});
 
 
 //GET products based on category
-productRouter.get('/searchPage/:category', (req, res, next) => {
-	
-	Product.find({category: req.params.category})
-	  .then( (productsByCategory) => {
-			res
-				.status(200)
-				.json(productsByCategory)
-		})
-		.catch( (err) => {
-			res
-			.status(500)
-			.json(err);
-		});
-})
-
+productRouter.get("/searchPage/:category", (req, res, next) => {
+  Product.find({ category: req.params.category })
+    .then(productsByCategory => {
+      res.status(200).json(productsByCategory);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
 
 // GET specific product and show in productDetails page
 productRouter.get("/allProducts", (req, res) => {
-
-	Product.find({})
-		.then( (dataProducts) => {
-			
-			res.status(200).json(dataProducts);
-		})
-		.catch( err => {
-			res.status(500).json(err);
-		})
+  Product.find({})
+    .then(dataProducts => {
+      res.status(200).json(dataProducts);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
+productRouter.post("/search", (req, res, next) => {
+  const { productId } = req.body;
 
-
-
+  Product.findById(productId)
+    .then(foundProduct => {
+      res
+        .status(200) // Created
+        .json(foundProduct);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
 
 // -------------ADMIN CREATE, ADD, DELETE PRODUCTS FROM HERE ON -----------------
 // ------------------------------------------------------------------------------
-
 
 // //ROUTE NOT WORKING
 // // POST from new Product Form //=>adds Product
@@ -80,7 +62,7 @@ productRouter.get("/allProducts", (req, res) => {
 // 		quantity,
 // 		img_url//things from the form
 // 	} = req.body; //deconstructing the object right away
-	
+
 // 	Product.create({
 // 		productName,
 //     productPrice,
@@ -89,7 +71,7 @@ productRouter.get("/allProducts", (req, res) => {
 // 		quantity,
 // 		img_url
 // 		}) //passing it over the model --> returns a promise
-		
+
 //     .then((product) => {
 //       return User.updateOne({
 //           _id: req.session.currentUser._id
@@ -102,13 +84,10 @@ productRouter.get("/allProducts", (req, res) => {
 // 		.catch( (err) => {
 // 			res
 // 			.status(500)
-// 			.json(err);    
+// 			.json(err);
 //     })
 // })
 
-
-
 // PUT update a product (check how to do this only beeing admin)
-
 
 module.exports = productRouter;

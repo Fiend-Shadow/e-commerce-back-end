@@ -137,8 +137,13 @@ orderRouter.post("/create", isLoggedIn, (req, res, next) => {
 
 orderRouter.get("/allOrders", isLoggedIn, (req, res, next) => {
   const { _id } = req.session.currentUser;
-  User.findById({ _id })
-    .populate("orders")
+  User.findById( _id )
+  .populate({
+      path : 'orders',
+      populate : {
+        path : 'orderProducts.id'
+      }
+    })
     .then(oneUser => {
       res.status(200).json(oneUser.orders);
     })
