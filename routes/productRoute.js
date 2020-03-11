@@ -65,54 +65,50 @@ productRouter.get("/allProducts", (req, res) => {
 
 // //ROUTE NOT WORKING
 // // POST from new Product Form //=>adds Product
-// productRouter.post("/adminAddProduct", parser.single('photo'), (req, res) => {
-//   let imageURL;
-//   if (req.file) {
-//     imageURL = req.file.secure_url // For Claudinary
-//   }
 
-//   let {
-//     productName,
-//     productPrice,
-// 		description,
-// 		category,
-// 		quantity,
-// 		img_url//things from the form
-// 	} = req.body; //deconstructing the object right away
+productRouter.post("/adminAddProduct", parser.single('photo'), (req, res) => {
+  let imageURL;
+  if (req.file) {
+    imageURL = req.file.secure_url // For Claudinary
+  }
+
+  let {
+    productName,
+    productPrice,
+		description,
+		category,
+		quantity,
+		img_url//things from the form
+	} = req.body; //deconstructing the object right away
 	
-// 	Product.create({
-// 		productName,
-//     productPrice,
-// 		description,
-// 		category,
-// 		quantity,
-// 		img_url
-// 		}) //passing it over the model --> returns a promise
+	Product.create({
+		productName,
+    productPrice,
+		description,
+		category,
+		quantity,
+		img_url
+		}) //passing it over the model --> returns a promise
 		
-//     .then((product) => {
-//       return User.updateOne({
-//           _id: req.session.currentUser._id
-//         }, {
-//           $addToSet: {
-//             products: product._id
-//           }
-//         })
-// 		})
-// 		.catch( (err) => {
-// 			res
-// 			.status(500)
-// 			.json(err);    
-//     })
-// })
-
-
+    .then((product) => {
+      return User.updateOne({
+          _id: req.session.currentUser._id
+        }, {
+          $addToSet: {
+            products: product._id
+          }
+        })
+		})
+		.catch( (err) => {
+			res
+			.status(500)
+			.json(err);    
+    })
+})
 
 
 
 // PUT update a product (check how to do this only beeing admin)
-
-
-
 
 
 module.exports = productRouter;
