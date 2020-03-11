@@ -9,8 +9,11 @@ const User = require("../models/userModel");
 const {
   isLoggedIn,
   isNotLoggedIn,
-  validationLogin
+  validationLogin,
+  // isAdmin
 } = require("../helpers/middlewares");
+
+
 
 // POST '/auth/signup'
 router.post('/signup', isNotLoggedIn, validationLogin, async (req, res, next) => {
@@ -53,6 +56,7 @@ router.post('/login', isNotLoggedIn, validationLogin, async (req, res, next) => 
       res
         .status(200)
         .json(user);
+
     //return;	 			TODO - remove from the notes
     } 
     else {
@@ -80,5 +84,28 @@ router.get('/me', isLoggedIn, (req, res, next) => {
   
   res.status(200).json(currentUserSessionData);
 });
+
+router.post("/edit" , isLoggedIn , (req,res,next) => {
+  const {username , email , password} = req.body;
+  const {_id} = req.session.currentUser;
+  User.findByIdAndUpdate({_id}, {$set : {username , email , password}}, {new: true})
+  .then((updatedUser) => {
+    res
+    .status(200)
+    .json(updatedUser);
+  }).catch((err) => {
+    res
+    .status(500)
+    .json(err);
+  });
+})
+
+// GET '/auth/admin'
+// router.get('/admin', isLoggedIn, isAdmin, (req, res, next) => {
+//   const currentUserSessionData = req.session.currentUser;
+//   currentUserSessionData.password = '****';
+  
+//   res.status(200).json(currentUserSessionData);
+// });
 
 module.exports = router;

@@ -16,3 +16,9 @@ exports.validationLogin = (req, res, next) => {
   if (!email || !password) next(createError(400));
   else next();
 };
+
+exports.isAdmin = (req,res,next)=>{
+  if (req.session.currentUser.isAdmin) next();
+  else next(createError(401));
+  // Check error Code
+}
