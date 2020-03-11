@@ -92,7 +92,7 @@ productRouter.post("/adminAddProduct", parser.single('photo'), (req, res) => {
           _id: req.session.currentUser._id
         }, {
 				$push: {
-					products: product._id
+					products: productId
 				}
 			})
 			res.json(product)
