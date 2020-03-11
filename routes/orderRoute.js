@@ -39,11 +39,11 @@ orderRouter.post("/create", isLoggedIn, (req, res, next) => {
   // .populate("orders")
   // .then(users => {
   //     const oneUser = users[0];
-  //     console.log("oneUser", oneUser);
+  
   User.findByIdAndUpdate(userId, { isAdmin: false }, { new: true })
     .populate("orders")
     .then(oneUser => {
-      console.log("oneUser", oneUser);
+      
       // If no orderds exist create the initial one
       if (oneUser.orders.length == 0) {
         return Order.create({
@@ -62,11 +62,11 @@ orderRouter.post("/create", isLoggedIn, (req, res, next) => {
             );
           })
           .then(updatedUser => {
-            console.log("updatedUser", updatedUser);
+            
             res.status(201).json({ message: "updated user" });
           })
           .catch(err => {
-            console.log("err", err);
+            
             next(createError(400));
           });
       } else {
@@ -77,7 +77,7 @@ orderRouter.post("/create", isLoggedIn, (req, res, next) => {
         oneUser.orders.forEach(oneOrder => {
           if (oneOrder.isDone === false) {
             pendingOrderFoundAndUpdated = true;
-            console.log("in oneUser for each");
+            
             // updatedOrderProducts = [
             //   { id: id, quantity: quantity || 1 },
             //   ...oneOrder.orderProducts
@@ -91,18 +91,18 @@ orderRouter.post("/create", isLoggedIn, (req, res, next) => {
               { new: true }
             )
               .then(result => {
-                console.log("in the then XD , updated order result", result);
+                
 
                 res.status(200).send();
               })
               .catch(err => {
-                console.log("err", err);
+                
                 next(createError(400));
               });
           }
         });
 
-        console.log("pendingOrderFoundAndUpdated", pendingOrderFoundAndUpdated);
+        
 
         if (!pendingOrderFoundAndUpdated) {
           // break the execution of function (don't run the code below)
@@ -123,14 +123,14 @@ orderRouter.post("/create", isLoggedIn, (req, res, next) => {
               res.status(201).send();
             })
             .catch(err => {
-              console.log("err", err);
+              
               next(createError(400));
             });
         }
       }
     })
     .catch(err => {
-      console.log("err", err);
+      
       next(createError(400));
     });
 });
