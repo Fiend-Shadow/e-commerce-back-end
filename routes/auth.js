@@ -81,4 +81,19 @@ router.get('/me', isLoggedIn, (req, res, next) => {
   res.status(200).json(currentUserSessionData);
 });
 
+router.post("/edit" , isLoggedIn , (req,res,next) => {
+  const {username , email , password} = req.body;
+  const {_id} = req.session.currentUser;
+  User.findByIdAndUpdate({_id}, {$set : {username , email , password}}, {new: true})
+  .then((updatedUser) => {
+    res
+    .status(200)
+    .json(updatedUser);
+  }).catch((err) => {
+    res
+    .status(500)
+    .json(err);
+  });
+})
+
 module.exports = router;
