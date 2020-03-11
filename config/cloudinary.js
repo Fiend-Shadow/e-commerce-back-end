@@ -11,7 +11,7 @@ cloudinary.config({
 
 var storage = cloudinaryStorage({
   cloudinary: cloudinary,
-  folder: 'ECOMMERCE-PROJECT',
+  folder: 'ecommerce',
   allowedFormats: ['jpg', 'png'],
 });
  

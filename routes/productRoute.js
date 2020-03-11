@@ -62,13 +62,19 @@ productRouter.get("/allProducts", (req, res) => {
 // -------------ADMIN CREATE, ADD, DELETE PRODUCTS FROM HERE ON -----------------
 // ------------------------------------------------------------------------------
 
+productRouter.post("/image", parser.single('file'), (req, res) => {
 
+	console.log('req.file', req.file)
+
+  img_url = req.file.secure_url // For Claudinary
+
+	res.status(201).send(secure_url);
+})
 // //ROUTE NOT WORKING
 // // POST from new Product Form //=>adds Product
 
-productRouter.post("/adminAddProduct", parser.single('photo'), (req, res) => {
+productRouter.post("/adminAddProduct", (req, res) => {
 
-  img_url = req.file.secure_url // For Claudinary
 
   let {
     productName,
