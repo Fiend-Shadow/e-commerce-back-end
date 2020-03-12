@@ -28,6 +28,17 @@ const {
 //         res.status(500).json(createError(err));
 //     });
 // }
+orderRouter.put("/oneOrder" ,isLoggedIn , (req,res,next) => {
+  const {orderId} = req.body;
+  Order.findByIdAndUpdate(orderId, {$set : {isDone : true}} , {new:true})
+  .then((oneOrder) => {
+    res
+    .status(200)
+    .json(oneOrder)
+  }).catch((err) => {
+    res.status(500).json(createError(err));
+  });
+} )
 
 orderRouter.post("/create", isLoggedIn, (req, res, next) => {
   const userId = req.session.currentUser._id;
