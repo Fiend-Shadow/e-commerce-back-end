@@ -28,6 +28,17 @@ const {
 //         res.status(500).json(createError(err));
 //     });
 // }
+orderRouter.put("/oneOrder" ,isLoggedIn , (req,res,next) => {
+  const {orderId} = req.body;
+  Order.findByIdAndUpdate(orderId, {$set : {isDone : true}} , {new:true})
+  .then((oneOrder) => {
+    res
+    .status(200)
+    .json(oneOrder)
+  }).catch((err) => {
+    res.status(500).json(createError(err));
+  });
+} )
 
 orderRouter.post("/create", isLoggedIn, (req, res, next) => {
   const userId = req.session.currentUser._id;
@@ -137,8 +148,13 @@ orderRouter.post("/create", isLoggedIn, (req, res, next) => {
 
 orderRouter.get("/allOrders", isLoggedIn, (req, res, next) => {
   const { _id } = req.session.currentUser;
-  User.findById({ _id })
-    .populate("orders")
+  User.findById( _id )
+  .populate({
+      path : 'orders',
+      populate : {
+        path : 'orderProducts.id'
+      }
+    })
     .then(oneUser => {
       res.status(200).json(oneUser.orders);
     })
